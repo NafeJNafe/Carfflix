@@ -1,0 +1,82 @@
+
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum AppointmentStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+}
+
+model Client {
+  id        Int   @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  phone     String
+  address   String
+  createdAt DateTime @default(now())
+
+  // Relations
+  vehicles     Vehicle[]
+  appointments Appointment[]
+
+  @@map("clients")
+}
+
+model Vehicle {
+  id           Int   @id @default(autoincrement())
+  clientId     Int
+  make         String
+  carModel     String
+  year         Int
+  licensePlate String
+  createdAt    DateTime @default(now())
+
+  // Relations
+  client       Client        @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  appointments Appointment[]
+
+  @@map("vehicles")
+}
+
+model Garage {
+  id        Int   @id @default(autoincrement())
+  name      String
+  address   String
+  latitude  Float
+  longitude Float
+  phone     String
+  email     String
+  createdAt DateTime @default(now())
+
+  // Relations
+  appointments Appointment[]
+
+  @@map("garages")
+}
+
+model Appointment {
+  id            Int            @id @default(autoincrement())
+  clientId      Int
+  vehicleId     Int
+  garageId      Int
+  pickupDate    DateTime
+  pickupTime    String
+  pickupAddress String
+  symptoms      String            @db.Text
+  status        AppointmentStatus @default(PENDING)
+  createdAt     DateTime          @default(now())
+
+  // Relations
+  client  Client  @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  vehicle Vehicle @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+  garage  Garage  @relation(fields: [garageId], references: [id], onDelete: Cascade)
+
+  @@map("appointments")
+}
