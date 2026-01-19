@@ -2,6 +2,11 @@
 # yarn lockfile v1
 
 
+"@alloc/quick-lru@^5.2.0":
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/@alloc/quick-lru/-/quick-lru-5.2.0.tgz#7bf68b20c0a350f936915fcae06f58e32007ce30"
+  integrity sha512-UrcABB+4bUrFABwbluTIBErXwvbsU/V7TZWfmbgJfbkwiBuziS9gxdODUyuiecfdGQ85jglMW6juS3+z5TsKLw==
+
 "@babel/code-frame@^7.28.6":
   version "7.28.6"
   resolved "https://registry.npmjs.org/@babel/code-frame/-/code-frame-7.28.6.tgz"
@@ -1173,13 +1178,15 @@
     "@tailwindcss/oxide-win32-arm64-msvc" "4.1.18"
     "@tailwindcss/oxide-win32-x64-msvc" "4.1.18"
 
-"@tailwindcss/vite@^4.1.18":
+"@tailwindcss/postcss@^4.1.18":
   version "4.1.18"
-  resolved "https://registry.yarnpkg.com/@tailwindcss/vite/-/vite-4.1.18.tgz#614b9d5483559518c72d31bca05d686f8df28e9a"
-  integrity sha512-jVA+/UpKL1vRLg6Hkao5jldawNmRo7mQYrZtNHMIVpLfLhDml5nMRUo/8MwoX2vNXvnaXNNMedrMfMugAVX1nA==
+  resolved "https://registry.yarnpkg.com/@tailwindcss/postcss/-/postcss-4.1.18.tgz#19152640d676beaa2a4a70b00bbc36ef54e998b5"
+  integrity sha512-Ce0GFnzAOuPyfV5SxjXGn0CubwGcuDB0zcdaPuCSzAa/2vII24JTkH+I6jcbXLb1ctjZMZZI6OjDaLPJQL1S0g==
   dependencies:
+    "@alloc/quick-lru" "^5.2.0"
     "@tailwindcss/node" "4.1.18"
     "@tailwindcss/oxide" "4.1.18"
+    postcss "^8.4.41"
     tailwindcss "4.1.18"
 
 "@tsconfig/node10@^1.0.7":
@@ -3747,7 +3754,7 @@ postcss-value-parser@^4.2.0:
   resolved "https://registry.yarnpkg.com/postcss-value-parser/-/postcss-value-parser-4.2.0.tgz#723c09920836ba6d3e5af019f92bc0971c02e514"
   integrity sha512-1NNCs6uurfkVbeXG4S8JFT9t19m45ICnif8zWLd5oPSZ50QnwMfK+H3jv408d4jw/7Bttv5axS5IiHoLaVNHeQ==
 
-postcss@^8.5.6:
+postcss@^8.4.41, postcss@^8.5.6:
   version "8.5.6"
   resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.5.6.tgz#2825006615a619b4f62a9e7426cc120b349a8f3c"
   integrity sha512-3Ybi1tAuwAP9s0r1UQ2J4n5Y0G05bJkpUIO0/bI9MhwmD70S5aTWbXGBwxHrelT+XM1k6dM0pk+SwNkpTRN7Pg==
@@ -4410,11 +4417,6 @@ tailwind-merge@^3.4.0:
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/tailwind-merge/-/tailwind-merge-3.4.0.tgz#5a264e131a096879965f1175d11f8c36e6b64eca"
   integrity sha512-uSaO4gnW+b3Y2aWoWfFpX62vn2sR3skfhbjsEnaBI81WD1wBLlHZe5sWf0AqjksNdYTbGBEd0UasQMT3SNV15g==
-
-tailwindcss-animate@^1.0.7:
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/tailwindcss-animate/-/tailwindcss-animate-1.0.7.tgz#318b692c4c42676cc9e67b19b78775742388bef4"
-  integrity sha512-bl6mpH3T7I3UFxuvDEXLxy/VuFxBk5bbzplh7tXI68mwMokNYd1t9qPBHlnyTwfa4JGC4zP516I1hYYtQ/vspA==
 
 tailwindcss@4.1.18, tailwindcss@^4.1.18:
   version "4.1.18"
