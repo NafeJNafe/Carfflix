@@ -1,4 +1,5 @@
 import express from 'express'
+import cors from 'cors'
 import { createClient, getClients } from './controllers/clientController.ts'
 import { createVehicle, getVehicles } from './controllers/vehicleController.ts'
 import { createGarage, getGarages } from './controllers/garageController.ts'
@@ -8,6 +9,14 @@ import {
 } from './controllers/appointmentController.ts'
 
 const app = express()
+
+// Configuración de CORS
+app.use(
+  cors({
+    origin: 'http://localhost:5173', // Puerto de Vite
+    credentials: true,
+  })
+)
 
 app.use(express.json())
 
