@@ -54,6 +54,8 @@ export default function BookingForm() {
     pickupTime: "",
   });
 
+  const [pickupTimeTouched, setPickupTimeTouched] = useState(false);
+  const [yearTouched, setYearTouched] = useState(false);
   const [confirmed, setConfirmed] = useState(false);
   const [selectedGarage, setSelectedGarage] = useState<Garage | null>(null);
   const [loading, setLoading] = useState(false);
@@ -166,7 +168,7 @@ export default function BookingForm() {
           Back
         </Button>
 
-        <Card className="mb-6">
+        <Card className="mb-8">
           <CardHeader>
             <CardTitle className="text-2xl">Schedule Your Pickup</CardTitle>
             <CardDescription>
@@ -175,31 +177,31 @@ export default function BookingForm() {
           </CardHeader>
         </Card>
 
-        <Card className="mb-6">
+        <Card className="mb-8">
           <CardHeader>
             <CardTitle>Personal Information</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div>
-              <Label htmlFor="name">Name *</Label>
+            <div className="mb-6 flex flex-col gap-2">
+              <Label htmlFor="name">Name and surname*</Label>
               <Input
                 id="name"
                 value={formData.name}
                 onChange={(e) => handleInputChange("name", e.target.value)}
-                placeholder="Juan Pérez"
+                placeholder="Dave Martinez"
               />
             </div>
-            <div>
+            <div className="mb-6 flex flex-col gap-2">
               <Label htmlFor="email">Email *</Label>
               <Input
                 id="email"
                 type="email"
                 value={formData.email}
                 onChange={(e) => handleInputChange("email", e.target.value)}
-                placeholder="juan@example.com"
+                placeholder="dave@arol.dev"
               />
             </div>
-            <div>
+            <div className="mb-6 flex flex-col gap-2">
               <Label htmlFor="phone">Phone *</Label>
               <Input
                 id="phone"
@@ -209,7 +211,7 @@ export default function BookingForm() {
                 placeholder="+34 612 345 678"
               />
             </div>
-            <div>
+            <div className="mb-6 flex flex-col gap-2">
               <Label htmlFor="pickupAddress">Pickup Address *</Label>
               <Input
                 id="pickupAddress"
@@ -217,19 +219,19 @@ export default function BookingForm() {
                 onChange={(e) =>
                   handleInputChange("pickupAddress", e.target.value)
                 }
-                placeholder="Calle Mayor 123, Madrid"
+                placeholder="Av/ Sagrada Familia 123, Barcelona"
               />
             </div>
           </CardContent>
         </Card>
 
-        <Card className="mb-6">
+        <Card className="mb-8">
           <CardHeader>
             <CardTitle>Vehicle Information</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4">
+          <CardContent>
             <div className="grid md:grid-cols-2 gap-4">
-              <div>
+              <div className="mb-6 flex flex-col gap-2">
                 <Label htmlFor="make">Make *</Label>
                 <Input
                   id="make"
@@ -238,7 +240,7 @@ export default function BookingForm() {
                   placeholder="Toyota"
                 />
               </div>
-              <div>
+              <div className="mb-6 flex flex-col gap-2">
                 <Label htmlFor="carModel">Model *</Label>
                 <Input
                   id="carModel"
@@ -251,18 +253,29 @@ export default function BookingForm() {
               </div>
             </div>
             <div className="grid md:grid-cols-2 gap-4">
-              <div>
+              <div className="mb-6 flex flex-col gap-2">
                 <Label htmlFor="year">Year *</Label>
                 <Select
-                  value={formData.year.toString()}
-                  onValueChange={(value) =>
-                    handleInputChange("year", parseInt(value))
-                  }
+                  value={formData.year?.toString() ?? ""}
+                  onValueChange={(value) => {
+                    setYearTouched(true);
+                    handleInputChange("year", parseInt(value));
+                  }}
                 >
-                  <SelectTrigger>
+                  <SelectTrigger
+                    className={`
+      transition-transform
+      hover:scale-[1.03] hover:bg-blue-100
+      ${
+        yearTouched
+          ? "border-blue-500 ring-2 ring-blue-500 bg-blue-200"
+          : "border-black ring-0 bg-white"
+      }
+    `}
+                  >
                     <SelectValue placeholder="Select year" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="bg-gray-50 border-3 border-blue-500 shadow-lg z-50">
                     {YEARS.map((year) => (
                       <SelectItem key={year} value={year.toString()}>
                         {year}
@@ -271,7 +284,7 @@ export default function BookingForm() {
                   </SelectContent>
                 </Select>
               </div>
-              <div>
+              <div className="mb-6 flex flex-col gap-2">
                 <Label htmlFor="licensePlate">License Plate *</Label>
                 <Input
                   id="licensePlate"
@@ -289,12 +302,12 @@ export default function BookingForm() {
           </CardContent>
         </Card>
 
-        <Card className="mb-6">
+        <Card className="mb-8">
           <CardHeader>
             <CardTitle>Pickup Date & Time</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div>
+            <div className="mb-6 flex flex-col gap-2">
               <Label htmlFor="pickupDate">Pickup Date *</Label>
               <Input
                 id="pickupDate"
@@ -308,18 +321,21 @@ export default function BookingForm() {
                 }
               />
             </div>
-            <div>
+            <div className="mb-6 flex flex-col gap-2">
               <Label htmlFor="pickupTime">Pickup Time *</Label>
               <Select
                 value={formData.pickupTime}
-                onValueChange={(value) =>
-                  handleInputChange("pickupTime", value)
-                }
+                onValueChange={(value) => {
+                  handleInputChange("pickupTime", value);
+                  setPickupTimeTouched(true);
+                }}
               >
-                <SelectTrigger>
+                <SelectTrigger
+                  className={`hover:scale-103 hover:bg-blue-100 transition ${pickupTimeTouched ? "ring-2 ring-blue-500 bg-blue-200" : ""}`}
+                >
                   <SelectValue placeholder="Select time slot" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="bg-gray-50 border-3 border-blue-500 shadow-lg z-50">
                   {TIME_SLOTS.map((time) => (
                     <SelectItem key={time} value={time}>
                       {time}
@@ -331,20 +347,31 @@ export default function BookingForm() {
           </CardContent>
         </Card>
 
-        <Card className="mb-6">
+        <Card className="mb-8">
           <CardHeader>
             <CardTitle>Review Your Booking</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="bg-gray-50 p-4 rounded-lg space-y-2">
+            <div className="mb-6 flex flex-col gap-2">
               <p>
-                <strong>Garage:</strong> {selectedGarage.name}
+                <strong>Client:</strong> {formData.name}, {formData.email},{" "}
+                {formData.phone}, {formData.pickupAddress}
               </p>
               <p>
-                <strong>Address:</strong> {selectedGarage.address}
+                <strong>Vehicle:</strong> {formData.make}, {formData.carModel},{" "}
+                {formData.year}, {formData.licensePlate}
+              </p>
+              <p>
+                <strong>Pickup Date & Time:</strong> {formData.pickupDate}{" "}
+                {formData.pickupTime}
+              </p>
+              <p>
+                <strong>Garage:</strong> {selectedGarage.name},{" "}
+                {selectedGarage.address}
               </p>
               <p>
                 <strong>Details:</strong> {formData.symptoms}
+                {formData.maintenance ? ` / ${formData.maintenance}` : ""}
               </p>
             </div>
 
@@ -364,14 +391,16 @@ export default function BookingForm() {
           </CardContent>
         </Card>
 
-        <Button
-          onClick={handleSubmit}
-          disabled={!isFormValid() || loading}
-          className="w-full"
-          size="lg"
-        >
-          {loading ? "Creating booking..." : "Schedule Pickup"}
-        </Button>
+        <div className="flex justify-center">
+          <Button
+            onClick={handleSubmit}
+            disabled={!isFormValid() || loading}
+            className="bg-blue-600 text-white border border-blue-700 px-6 py-3 rounded-lg font-semibold transition duration-200 hover:bg-blue-900 hover:border-black hover:cursor-pointer transform hover:scale-125"
+            size="lg"
+          >
+            {loading ? "Creating booking..." : "Schedule Pickup"}
+          </Button>
+        </div>
       </div>
     </div>
   );

@@ -2,7 +2,6 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
   Card,
-  CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
@@ -14,23 +13,23 @@ export default function Home() {
 
   return (
     <>
-      <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
+      <div className="min-h-screen bg-gray-50">
         <div className="container mx-auto px-4 py-16">
-          <div className="text-center mb-16">
-            <h1 className="text-5xl font-bold text-gray-900 mb-4">
+          <div className="text-center mb-12">
+            <h1 className="text-5xl font-bold text-gray-900 mb-8">
               🚗 CARFFLIX
             </h1>
             <p className="text-2xl text-gray-700 mb-2">
               Car pickup and garage service, without leaving home
             </p>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-8">
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto mt-12 mb-12">
               We pick up your car, take it to a trusted garage, and return it
               when it's ready. No waiting, no hassle.
             </p>
 
             <Button
               size="lg"
-              className="text-lg px-8 py-6"
+              className="bg-blue-600 text-white border border-blue-700 px-6 py-3 rounded-lg font-semibold transition duration-200 hover:bg-blue-900 hover:border-black hover:cursor-pointer transform hover:scale-150"
               onClick={() => navigate("/symptoms")}
             >
               Book a Pickup
@@ -43,9 +42,9 @@ export default function Home() {
             </h2>
 
             <div className="grid md:grid-cols-3 gap-6">
-              <Card>
+              <Card className="bg-blue-100 hover:scale-101">
                 <CardHeader>
-                  <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+                  <div className="w-12 h-12 bg-blue-300 border rounded-full flex items-center justify-center mb-4">
                     <Car className="w-6 h-6 text-blue-600" />
                   </div>
                   <CardTitle>1. Describe Your Issue</CardTitle>
@@ -55,9 +54,9 @@ export default function Home() {
                 </CardHeader>
               </Card>
 
-              <Card>
+              <Card className="bg-blue-100 hover:scale-101">
                 <CardHeader>
-                  <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+                  <div className="w-12 h-12 bg-blue-300 border rounded-full flex items-center justify-center mb-4">
                     <MapPin className="w-6 h-6 text-blue-600" />
                   </div>
                   <CardTitle>2. Choose a Garage</CardTitle>
@@ -67,9 +66,9 @@ export default function Home() {
                 </CardHeader>
               </Card>
 
-              <Card>
+              <Card className="bg-blue-100 hover:scale-101">
                 <CardHeader>
-                  <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+                  <div className="w-12 h-12 bg-blue-300 border rounded-full flex items-center justify-center mb-4">
                     <Clock className="w-6 h-6 text-blue-600" />
                   </div>
                   <CardTitle>3. Schedule Pickup</CardTitle>

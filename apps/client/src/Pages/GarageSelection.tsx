@@ -78,8 +78,8 @@ export default function GarageSelection() {
                 key={garage.id}
                 className={`cursor-pointer transition-all ${
                   selectedGarage?.id === garage.id
-                    ? "ring-2 ring-blue-500 bg-blue-50"
-                    : "hover:bg-gray-50"
+                    ? "ring-2 ring-blue-500 bg-blue-50 bg-blue-200"
+                    : "hover:bg-blue-100 hover:scale-103"
                 }`}
                 onClick={() => setSelectedGarage(garage)}
               >
@@ -126,14 +126,16 @@ export default function GarageSelection() {
             </Card>
           )}
 
-          <Button
-            onClick={handleContinue}
-            disabled={!selectedGarage}
-            className="w-full"
-            size="lg"
-          >
-            Continue to Booking Form
-          </Button>
+          <div className="flex justify-center">
+            <Button
+              onClick={handleContinue}
+              disabled={!selectedGarage}
+              className="bg-blue-600 text-white border border-blue-700 px-6 py-3 rounded-lg font-semibold transition duration-200 hover:bg-blue-900 hover:border-black hover:cursor-pointer transform hover:scale-125"
+              size="lg"
+            >
+              Continue to Booking Form
+            </Button>
+          </div>
         </div>
       </div>
     </>

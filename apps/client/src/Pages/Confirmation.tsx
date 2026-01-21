@@ -120,7 +120,7 @@ export default function Confirmation() {
             </CardContent>
           </Card>
 
-          <Card className="mb-6">
+          <Card className="mb-6 bg-blue-100">
             <CardHeader>
               <CardTitle>Next Steps</CardTitle>
             </CardHeader>
@@ -149,15 +149,17 @@ export default function Confirmation() {
             </CardContent>
           </Card>
 
-          <Button
-            onClick={handleBackHome}
-            className="w-full"
-            size="lg"
-            variant="outline"
-          >
-            <Home className="w-4 h-4 mr-2" />
-            Back to Home
-          </Button>
+          <div className="flex justify-center">
+            <Button
+              onClick={handleBackHome}
+              className="bg-blue-600 text-white border border-blue-700 px-6 py-3 rounded-lg font-semibold transition duration-200 hover:bg-blue-900 hover:border-black hover:cursor-pointer transform hover:scale-125"
+              size="lg"
+              variant="outline"
+            >
+              <Home className="w-4 h-4 mr-2" />
+              Back to Home
+            </Button>
+          </div>
         </div>
       </div>
     </>
