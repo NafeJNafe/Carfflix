@@ -18,6 +18,8 @@ export default function Confirmation() {
   const [selectedGarage, setSelectedGarage] = useState<Garage | null>(null);
 
   useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+
     const id = sessionStorage.getItem("appointmentId");
     const dataStr = sessionStorage.getItem("bookingData");
     const garageStr = sessionStorage.getItem("selectedGarage");
@@ -79,7 +81,11 @@ export default function Confirmation() {
             <CardContent className="space-y-4">
               <div className="grid md:grid-cols-2 gap-4">
                 <div>
-                  <p className="text-sm text-gray-500">Date & Time</p>
+                  <p className="text-sm text-gray-500">Client</p>
+                  <p className="font-semibold">{bookingData.name}</p>
+                  <p className="font-semibold">{bookingData.phone}</p>
+                  <p className="font-semibold">{bookingData.email}</p>
+                  <p className="text-sm text-gray-500 mt-2">Date & Time</p>
                   <p className="font-semibold">
                     {formattedDate} at {bookingData.pickupTime}
                   </p>
