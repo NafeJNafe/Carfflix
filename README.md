@@ -1,135 +1,85 @@
-# Turborepo starter
+# Carfflix 🚗💨
 
-This Turborepo starter is maintained by the Turborepo core team.
+**Carfflix** is a premium home-pickup vehicle maintenance platform. It bridges the gap between vehicle owners and professional garages by providing a seamless, on-demand logistics service for car repairs and servicing.
 
-## Using this example
+## 🌟 The Vision
 
-Run the following command:
+The traditional car repair experience is inconvenient and time-consuming. Carfflix redefines this by allowing users to schedule a professional pickup of their vehicle from their doorstep. Whether it's routine maintenance or a specific mechanical issue, Carfflix ensures your car gets the attention it needs without disrupting your day.
 
-```sh
-npx create-turbo@latest
+## 🚀 Key Features
+
+- **Home Pickup Service**: Schedule a date and time for your vehicle to be picked up and taken to the workshop.
+- **Smart Appointment Scheduling**: Provide vehicle details (model, year, license plate) and describe "symptoms" or maintenance needs.
+- **Google Maps Integration**: Select your preferred garage from an interactive map showing nearby authorized workshops. (Coming Soon)
+- **Real-time Status**: Track your appointment from booking to completion.
+
+## 🛠 Tech Stack
+
+This project is built as a **Turborepo** monorepo:
+
+- **Frontend**: React (Vite) + TailwindCSS + Lucide React
+- **Backend**: Express.js + Node.js
+- **Database**: PostgreSQL with Prisma ORM
+- **Monorepo Management**: Turbo
+
+---
+
+## 🏃‍♂️ Getting Started
+
+This project uses **Yarn** as the primary package manager.
+
+### Prerequisites
+
+- Node.js >= 18
+- Yarn
+- PostgreSQL instance
+
+### Installation
+
+1. Clone the repository
+2. Install dependencies:
+   ```bash
+   yarn install
+   ```
+
+### Development
+
+Run all apps (client & server) in development mode:
+
+```bash
+yarn dev
 ```
-
-## What's inside?
-
-This Turborepo includes the following packages/apps:
-
-### Apps and Packages
-
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
-
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
 
 ### Build
 
-To build all apps and packages, run the following command:
+To build all apps and packages:
 
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build
-
-# Without [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build
-yarn dlx turbo build
-pnpm exec turbo build
+```bash
+yarn build
 ```
 
-You can build a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
+---
 
-```
-# With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build --filter=docs
+## 🗺 Roadmap (MVP to Final Product)
 
-# Without [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build --filter=docs
-yarn exec turbo build --filter=docs
-pnpm exec turbo build --filter=docs
-```
+### Phase 1: MVP (Current) ✅
+- Basic appointment flow.
+- Client and Vehicle registration.
+- Garage listing.
+- Appointment confirmation view.
 
-### Develop
+### Phase 2: UI/UX Excellence 🏗️ (Next Step)
+- Overhaul the design with a premium, modern aesthetic.
+- Interactive Google Maps selection for Garages.
+- Improved validation and user feedback.
 
-To develop all apps and packages, run the following command:
+### Phase 3: Automation & Communication 📧
+- Email confirmation system (NodeMailer/SendGrid).
+- Garage-side dashboard to accept/confirm appointments.
+- Status notification updates for the user.
 
-```
-cd my-turborepo
+---
 
-# With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev
+## ⚖️ License
 
-# Without [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev
-yarn exec turbo dev
-pnpm exec turbo dev
-```
-
-You can develop a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
-
-```
-# With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev --filter=web
-
-# Without [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev --filter=web
-yarn exec turbo dev --filter=web
-pnpm exec turbo dev --filter=web
-```
-
-### Remote Caching
-
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
-
-Turborepo can use a technique known as [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended)
-turbo login
-
-# Without [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation), use your package manager
-npx turbo login
-yarn exec turbo login
-pnpm exec turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-```
-# With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended)
-turbo link
-
-# Without [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation), use your package manager
-npx turbo link
-yarn exec turbo link
-pnpm exec turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turborepo.dev/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.dev/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.dev/docs/reference/configuration)
-- [CLI Usage](https://turborepo.dev/docs/reference/command-line-reference)
+Private - All rights reserved.
