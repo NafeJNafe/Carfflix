@@ -14,11 +14,10 @@ import { Checkbox } from "@/components/ui/checkbox";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, User, Car, CalendarClock, ClipboardList } from "lucide-react";
 import api from "@/lib/api";
 import type { Garage, BookingData } from "@/types";
 
@@ -35,6 +34,38 @@ const TIME_SLOTS = [
 
 const CURRENT_YEAR = new Date().getFullYear();
 const YEARS = Array.from({ length: 35 }, (_, i) => CURRENT_YEAR - i);
+
+/* ── Shared label style ── */
+const labelStyle: React.CSSProperties = {
+  color: "#39FF14",
+  fontSize: "11px",
+  fontWeight: 700,
+  letterSpacing: "0.15em",
+  textTransform: "uppercase",
+  display: "block",
+  marginBottom: "8px",
+};
+
+/* ── Shared input style ── */
+const inputStyle: React.CSSProperties = {
+  background: "#111111",
+  border: "1px solid rgba(255,255,255,0.08)",
+  borderRadius: "10px",
+  color: "#FFFFFF",
+  fontSize: "14px",
+  padding: "12px 14px",
+  width: "100%",
+  outline: "none",
+  transition: "border-color 200ms, box-shadow 200ms",
+};
+
+/* ── Shared section card style ── */
+const sectionCardStyle: React.CSSProperties = {
+  background: "#0D0D0D",
+  border: "1px solid rgba(57,255,20,0.15)",
+  borderRadius: "16px",
+  marginBottom: "20px",
+};
 
 export default function BookingForm() {
   const navigate = useNavigate();
@@ -157,104 +188,237 @@ export default function BookingForm() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="container mx-auto px-4 max-w-3xl">
-        <Button
-          variant="ghost"
+    <div
+      className="min-h-screen flex flex-col items-center px-4 py-10"
+      style={{ backgroundColor: "#000000" }}
+    >
+      {/* ── Back button ── */}
+      <div className="w-full" style={{ maxWidth: "720px", marginBottom: "24px" }}>
+        <button
           onClick={() => navigate("/garages")}
-          className="mb-4"
+          className="flex items-center gap-2 transition-colors duration-200 cursor-pointer"
+          style={{ color: "#8A8A8A", fontSize: "13px", background: "none", border: "none" }}
+          onMouseEnter={(e) =>
+            ((e.currentTarget as HTMLButtonElement).style.color = "#39FF14")
+          }
+          onMouseLeave={(e) =>
+            ((e.currentTarget as HTMLButtonElement).style.color = "#8A8A8A")
+          }
         >
-          <ArrowLeft className="w-4 h-4 mr-2" />
+          <ArrowLeft size={15} />
           Back
-        </Button>
+        </button>
+      </div>
 
-        <Card className="mb-8">
-          <CardHeader>
-            <CardTitle className="text-2xl">Schedule Your Pickup</CardTitle>
-            <CardDescription>
-              Fill in your details to complete the booking
-            </CardDescription>
-          </CardHeader>
-        </Card>
+      {/* ── Page header ── */}
+      <div className="w-full mb-6" style={{ maxWidth: "720px" }}>
+        <div style={{ marginBottom: "10px" }}>
+          <span
+            className="font-bold uppercase"
+            style={{
+              color: "#39FF14",
+              fontSize: "10px",
+              letterSpacing: "0.15em",
+              background: "rgba(57,255,20,0.08)",
+              border: "1px solid rgba(57,255,20,0.3)",
+              borderRadius: "999px",
+              padding: "4px 12px",
+            }}
+          >
+            Step 3 of 3 · Appointment Scheduling
+          </span>
+        </div>
+        <h1
+          className="font-bold"
+          style={{ color: "#FFFFFF", fontSize: "clamp(1.3rem, 4vw, 1.6rem)" }}
+        >
+          Schedule Your Pickup
+        </h1>
+        <p style={{ color: "#8A8A8A", fontSize: "13px", marginTop: "4px" }}>
+          Fill in your details to complete the booking
+        </p>
+      </div>
 
-        <Card className="mb-8">
-          <CardHeader>
-            <CardTitle>Personal Information</CardTitle>
+      <div className="w-full" style={{ maxWidth: "720px" }}>
+
+        {/* ── Personal Information ── */}
+        <Card style={sectionCardStyle}>
+          <CardHeader style={{ paddingBottom: "4px" }}>
+            <div className="flex items-center gap-3">
+              <div
+                className="flex items-center justify-center flex-shrink-0"
+                style={{
+                  width: "36px",
+                  height: "36px",
+                  background: "rgba(57,255,20,0.08)",
+                  border: "1px solid rgba(57,255,20,0.2)",
+                  borderRadius: "50%",
+                }}
+              >
+                <User size={16} style={{ color: "#39FF14" }} />
+              </div>
+              <CardTitle style={{ color: "#FFFFFF", fontSize: "15px", fontWeight: 700 }}>
+                Personal Information
+              </CardTitle>
+            </div>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="mb-6 flex flex-col gap-2">
-              <Label htmlFor="name">Name and surname*</Label>
-              <Input
-                id="name"
-                value={formData.name}
-                onChange={(e) => handleInputChange("name", e.target.value)}
-                placeholder="Dave Martinez"
-              />
-            </div>
-            <div className="mb-6 flex flex-col gap-2">
-              <Label htmlFor="email">Email *</Label>
-              <Input
-                id="email"
-                type="email"
-                value={formData.email}
-                onChange={(e) => handleInputChange("email", e.target.value)}
-                placeholder="dave@arol.dev"
-              />
-            </div>
-            <div className="mb-6 flex flex-col gap-2">
-              <Label htmlFor="phone">Phone *</Label>
-              <Input
-                id="phone"
-                type="tel"
-                value={formData.phone}
-                onChange={(e) => handleInputChange("phone", e.target.value)}
-                placeholder="+34 612 345 678"
-              />
-            </div>
-            <div className="mb-6 flex flex-col gap-2">
-              <Label htmlFor="pickupAddress">Pickup Address *</Label>
-              <Input
-                id="pickupAddress"
-                value={formData.pickupAddress}
-                onChange={(e) =>
-                  handleInputChange("pickupAddress", e.target.value)
-                }
-                placeholder="Av/ Sagrada Familia 123, Barcelona"
-              />
+
+          <CardContent style={{ paddingTop: "8px" }}>
+            {/* Dashed divider */}
+            <div
+              style={{
+                borderTop: "1px dashed rgba(57,255,20,0.15)",
+                marginBottom: "20px",
+              }}
+            />
+
+            <div className="flex flex-col gap-5">
+              <div>
+                <Label htmlFor="name" style={labelStyle}>Name and Surname *</Label>
+                <Input
+                  id="name"
+                  value={formData.name}
+                  onChange={(e) => handleInputChange("name", e.target.value)}
+                  style={inputStyle}
+                  onFocus={(e) => {
+                    e.currentTarget.style.borderColor = "rgba(57,255,20,0.5)";
+                    e.currentTarget.style.boxShadow = "0 0 0 2px rgba(57,255,20,0.07)";
+                  }}
+                  onBlur={(e) => {
+                    e.currentTarget.style.borderColor = "rgba(255,255,255,0.08)";
+                    e.currentTarget.style.boxShadow = "none";
+                  }}
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="email" style={labelStyle}>Email *</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  value={formData.email}
+                  onChange={(e) => handleInputChange("email", e.target.value)}
+                  style={inputStyle}
+                  onFocus={(e) => {
+                    e.currentTarget.style.borderColor = "rgba(57,255,20,0.5)";
+                    e.currentTarget.style.boxShadow = "0 0 0 2px rgba(57,255,20,0.07)";
+                  }}
+                  onBlur={(e) => {
+                    e.currentTarget.style.borderColor = "rgba(255,255,255,0.08)";
+                    e.currentTarget.style.boxShadow = "none";
+                  }}
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="phone" style={labelStyle}>Phone *</Label>
+                <Input
+                  id="phone"
+                  type="tel"
+                  value={formData.phone}
+                  onChange={(e) => handleInputChange("phone", e.target.value)}
+                  style={inputStyle}
+                  onFocus={(e) => {
+                    e.currentTarget.style.borderColor = "rgba(57,255,20,0.5)";
+                    e.currentTarget.style.boxShadow = "0 0 0 2px rgba(57,255,20,0.07)";
+                  }}
+                  onBlur={(e) => {
+                    e.currentTarget.style.borderColor = "rgba(255,255,255,0.08)";
+                    e.currentTarget.style.boxShadow = "none";
+                  }}
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="pickupAddress" style={labelStyle}>Pickup Address *</Label>
+                <Input
+                  id="pickupAddress"
+                  value={formData.pickupAddress}
+                  onChange={(e) => handleInputChange("pickupAddress", e.target.value)}
+                  style={inputStyle}
+                  onFocus={(e) => {
+                    e.currentTarget.style.borderColor = "rgba(57,255,20,0.5)";
+                    e.currentTarget.style.boxShadow = "0 0 0 2px rgba(57,255,20,0.07)";
+                  }}
+                  onBlur={(e) => {
+                    e.currentTarget.style.borderColor = "rgba(255,255,255,0.08)";
+                    e.currentTarget.style.boxShadow = "none";
+                  }}
+                />
+              </div>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="mb-8">
-          <CardHeader>
-            <CardTitle>Vehicle Information</CardTitle>
+        {/* ── Vehicle Information ── */}
+        <Card style={sectionCardStyle}>
+          <CardHeader style={{ paddingBottom: "4px" }}>
+            <div className="flex items-center gap-3">
+              <div
+                className="flex items-center justify-center flex-shrink-0"
+                style={{
+                  width: "36px",
+                  height: "36px",
+                  background: "rgba(57,255,20,0.08)",
+                  border: "1px solid rgba(57,255,20,0.2)",
+                  borderRadius: "50%",
+                }}
+              >
+                <Car size={16} style={{ color: "#39FF14" }} />
+              </div>
+              <CardTitle style={{ color: "#FFFFFF", fontSize: "15px", fontWeight: 700 }}>
+                Vehicle Information
+              </CardTitle>
+            </div>
           </CardHeader>
-          <CardContent>
-            <div className="grid md:grid-cols-2 gap-4">
-              <div className="mb-6 flex flex-col gap-2">
-                <Label htmlFor="make">Make *</Label>
+
+          <CardContent style={{ paddingTop: "8px" }}>
+            <div
+              style={{
+                borderTop: "1px dashed rgba(57,255,20,0.15)",
+                marginBottom: "20px",
+              }}
+            />
+
+            <div className="grid md:grid-cols-2 gap-5">
+              <div>
+                <Label htmlFor="make" style={labelStyle}>Make *</Label>
                 <Input
                   id="make"
                   value={formData.make}
                   onChange={(e) => handleInputChange("make", e.target.value)}
-                  placeholder="Toyota"
+                  style={inputStyle}
+                  onFocus={(e) => {
+                    e.currentTarget.style.borderColor = "rgba(57,255,20,0.5)";
+                    e.currentTarget.style.boxShadow = "0 0 0 2px rgba(57,255,20,0.07)";
+                  }}
+                  onBlur={(e) => {
+                    e.currentTarget.style.borderColor = "rgba(255,255,255,0.08)";
+                    e.currentTarget.style.boxShadow = "none";
+                  }}
                 />
               </div>
-              <div className="mb-6 flex flex-col gap-2">
-                <Label htmlFor="carModel">Model *</Label>
+
+              <div>
+                <Label htmlFor="carModel" style={labelStyle}>Model *</Label>
                 <Input
                   id="carModel"
                   value={formData.carModel}
-                  onChange={(e) =>
-                    handleInputChange("carModel", e.target.value)
-                  }
-                  placeholder="Corolla"
+                  onChange={(e) => handleInputChange("carModel", e.target.value)}
+                  style={inputStyle}
+                  onFocus={(e) => {
+                    e.currentTarget.style.borderColor = "rgba(57,255,20,0.5)";
+                    e.currentTarget.style.boxShadow = "0 0 0 2px rgba(57,255,20,0.07)";
+                  }}
+                  onBlur={(e) => {
+                    e.currentTarget.style.borderColor = "rgba(255,255,255,0.08)";
+                    e.currentTarget.style.boxShadow = "none";
+                  }}
                 />
               </div>
-            </div>
-            <div className="grid md:grid-cols-2 gap-4">
-              <div className="mb-6 flex flex-col gap-2">
-                <Label htmlFor="year">Year *</Label>
+
+              <div>
+                <Label htmlFor="year" style={labelStyle}>Year *</Label>
                 <Select
                   value={formData.year?.toString() ?? ""}
                   onValueChange={(value) => {
@@ -263,127 +427,262 @@ export default function BookingForm() {
                   }}
                 >
                   <SelectTrigger
-                    className={`
-      transition-transform
-      hover:scale-[1.03] hover:bg-blue-100
-      ${
-        yearTouched
-          ? "border-blue-500 ring-2 ring-blue-500 bg-blue-200"
-          : "border-black ring-0 bg-white"
-      }
-    `}
+                    style={{
+                      background: yearTouched ? "rgba(57,255,20,0.05)" : "#111111",
+                      border: yearTouched
+                        ? "1px solid rgba(57,255,20,0.5)"
+                        : "1px solid rgba(255,255,255,0.08)",
+                      borderRadius: "10px",
+                      color: "#FFFFFF",
+                      fontSize: "14px",
+                      minHeight: "46px",
+                    }}
                   >
                     <SelectValue placeholder="Select year" />
                   </SelectTrigger>
-                  <SelectContent className="bg-gray-50 border-3 border-blue-500 shadow-lg z-50">
+                  <SelectContent
+                    style={{
+                      background: "#111111",
+                      border: "1px solid rgba(57,255,20,0.25)",
+                      borderRadius: "10px",
+                    }}
+                  >
                     {YEARS.map((year) => (
-                      <SelectItem key={year} value={year.toString()}>
+                      <SelectItem
+                        key={year}
+                        value={year.toString()}
+                        style={{ color: "#FFFFFF", fontSize: "13px" }}
+                      >
                         {year}
                       </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
               </div>
-              <div className="mb-6 flex flex-col gap-2">
-                <Label htmlFor="licensePlate">License Plate *</Label>
+
+              <div>
+                <Label htmlFor="licensePlate" style={labelStyle}>License Plate *</Label>
                 <Input
                   id="licensePlate"
                   value={formData.licensePlate}
                   onChange={(e) =>
-                    handleInputChange(
-                      "licensePlate",
-                      e.target.value.toUpperCase(),
-                    )
+                    handleInputChange("licensePlate", e.target.value.toUpperCase())
                   }
-                  placeholder="1234ABC"
+                  style={inputStyle}
+                  onFocus={(e) => {
+                    e.currentTarget.style.borderColor = "rgba(57,255,20,0.5)";
+                    e.currentTarget.style.boxShadow = "0 0 0 2px rgba(57,255,20,0.07)";
+                  }}
+                  onBlur={(e) => {
+                    e.currentTarget.style.borderColor = "rgba(255,255,255,0.08)";
+                    e.currentTarget.style.boxShadow = "none";
+                  }}
                 />
               </div>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="mb-8">
-          <CardHeader>
-            <CardTitle>Pickup Date & Time</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="mb-6 flex flex-col gap-2">
-              <Label htmlFor="pickupDate">Pickup Date *</Label>
-              <Input
-                id="pickupDate"
-                type="date"
-                value={formData.pickupDate}
-                onChange={(e) =>
-                  handleInputChange("pickupDate", e.target.value)
-                }
-                min={
-                  new Date(Date.now() + 86400000).toISOString().split("T")[0]
-                }
-              />
-            </div>
-            <div className="mb-6 flex flex-col gap-2">
-              <Label htmlFor="pickupTime">Pickup Time *</Label>
-              <Select
-                value={formData.pickupTime}
-                onValueChange={(value) => {
-                  handleInputChange("pickupTime", value);
-                  setPickupTimeTouched(true);
+        {/* ── Pickup Date & Time ── */}
+        <Card style={sectionCardStyle}>
+          <CardHeader style={{ paddingBottom: "4px" }}>
+            <div className="flex items-center gap-3">
+              <div
+                className="flex items-center justify-center flex-shrink-0"
+                style={{
+                  width: "36px",
+                  height: "36px",
+                  background: "rgba(57,255,20,0.08)",
+                  border: "1px solid rgba(57,255,20,0.2)",
+                  borderRadius: "50%",
                 }}
               >
-                <SelectTrigger
-                  className={`hover:scale-103 hover:bg-blue-100 transition ${pickupTimeTouched ? "ring-2 ring-blue-500 bg-blue-200" : ""}`}
+                <CalendarClock size={16} style={{ color: "#39FF14" }} />
+              </div>
+              <CardTitle style={{ color: "#FFFFFF", fontSize: "15px", fontWeight: 700 }}>
+                Pickup Date & Time
+              </CardTitle>
+            </div>
+          </CardHeader>
+
+          <CardContent style={{ paddingTop: "8px" }}>
+            <div
+              style={{
+                borderTop: "1px dashed rgba(57,255,20,0.15)",
+                marginBottom: "20px",
+              }}
+            />
+
+            <div className="flex flex-col gap-5">
+              <div>
+                <Label htmlFor="pickupDate" style={labelStyle}>Pickup Date *</Label>
+                <Input
+                  id="pickupDate"
+                  type="date"
+                  value={formData.pickupDate}
+                  onChange={(e) => handleInputChange("pickupDate", e.target.value)}
+                  min={new Date(Date.now() + 86400000).toISOString().split("T")[0]}
+                  style={{
+                    ...inputStyle,
+                    colorScheme: "dark",
+                  }}
+                  onFocus={(e) => {
+                    e.currentTarget.style.borderColor = "rgba(57,255,20,0.5)";
+                    e.currentTarget.style.boxShadow = "0 0 0 2px rgba(57,255,20,0.07)";
+                  }}
+                  onBlur={(e) => {
+                    e.currentTarget.style.borderColor = "rgba(255,255,255,0.08)";
+                    e.currentTarget.style.boxShadow = "none";
+                  }}
+                />
+              </div>
+
+              <div>
+                <Label htmlFor="pickupTime" style={labelStyle}>Pickup Time *</Label>
+                <Select
+                  value={formData.pickupTime}
+                  onValueChange={(value) => {
+                    handleInputChange("pickupTime", value);
+                    setPickupTimeTouched(true);
+                  }}
                 >
-                  <SelectValue placeholder="Select time slot" />
-                </SelectTrigger>
-                <SelectContent className="bg-gray-50 border-3 border-blue-500 shadow-lg z-50">
-                  {TIME_SLOTS.map((time) => (
-                    <SelectItem key={time} value={time}>
-                      {time}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+                  <SelectTrigger
+                    style={{
+                      background: pickupTimeTouched ? "rgba(57,255,20,0.05)" : "#111111",
+                      border: pickupTimeTouched
+                        ? "1px solid rgba(57,255,20,0.5)"
+                        : "1px solid rgba(255,255,255,0.08)",
+                      borderRadius: "10px",
+                      color: "#FFFFFF",
+                      fontSize: "14px",
+                      minHeight: "46px",
+                    }}
+                  >
+                    <SelectValue placeholder="Select time slot" />
+                  </SelectTrigger>
+                  <SelectContent
+                    style={{
+                      background: "#111111",
+                      border: "1px solid rgba(57,255,20,0.25)",
+                      borderRadius: "10px",
+                    }}
+                  >
+                    {TIME_SLOTS.map((time) => (
+                      <SelectItem
+                        key={time}
+                        value={time}
+                        style={{ color: "#FFFFFF", fontSize: "13px" }}
+                      >
+                        {time}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="mb-8">
-          <CardHeader>
-            <CardTitle>Review Your Booking</CardTitle>
+        {/* ── Review Your Booking ── */}
+        <Card style={sectionCardStyle}>
+          <CardHeader style={{ paddingBottom: "4px" }}>
+            <div className="flex items-center gap-3">
+              <div
+                className="flex items-center justify-center flex-shrink-0"
+                style={{
+                  width: "36px",
+                  height: "36px",
+                  background: "rgba(57,255,20,0.08)",
+                  border: "1px solid rgba(57,255,20,0.2)",
+                  borderRadius: "50%",
+                }}
+              >
+                <ClipboardList size={16} style={{ color: "#39FF14" }} />
+              </div>
+              <CardTitle style={{ color: "#FFFFFF", fontSize: "15px", fontWeight: 700 }}>
+                Review Your Booking
+              </CardTitle>
+            </div>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="mb-6 flex flex-col gap-2">
-              <p>
-                <strong>Client:</strong> {formData.name}, {formData.email},{" "}
-                {formData.phone}, {formData.pickupAddress}
-              </p>
-              <p>
-                <strong>Vehicle:</strong> {formData.make}, {formData.carModel},{" "}
-                {formData.year}, {formData.licensePlate}
-              </p>
-              <p>
-                <strong>Pickup Date & Time:</strong> {formData.pickupDate}{" "}
-                {formData.pickupTime}
-              </p>
-              <p>
-                <strong>Garage:</strong> {selectedGarage.name},{" "}
-                {selectedGarage.address}
-              </p>
-              <p>
-                <strong>Details:</strong> {formData.symptoms}
-                {formData.maintenance ? ` / ${formData.maintenance}` : ""}
-              </p>
+
+          <CardContent style={{ paddingTop: "8px" }}>
+            <div
+              style={{
+                borderTop: "1px dashed rgba(57,255,20,0.15)",
+                marginBottom: "20px",
+              }}
+            />
+
+            <div className="flex flex-col gap-3" style={{ marginBottom: "24px" }}>
+              {[
+                {
+                  label: "Client",
+                  value: `${formData.name}, ${formData.email}, ${formData.phone}, ${formData.pickupAddress}`,
+                },
+                {
+                  label: "Vehicle",
+                  value: `${formData.make} ${formData.carModel}, ${formData.year}, ${formData.licensePlate}`,
+                },
+                {
+                  label: "Pickup",
+                  value: `${formData.pickupDate} at ${formData.pickupTime}`,
+                },
+                {
+                  label: "Garage",
+                  value: `${selectedGarage.name}, ${selectedGarage.address}`,
+                },
+                {
+                  label: "Details",
+                  value: formData.symptoms || "—",
+                },
+              ].map(({ label, value }) => (
+                <div key={label} className="flex gap-3">
+                  <span
+                    style={{
+                      color: "#39FF14",
+                      fontSize: "11px",
+                      fontWeight: 700,
+                      letterSpacing: "0.1em",
+                      textTransform: "uppercase",
+                      minWidth: "68px",
+                      paddingTop: "2px",
+                    }}
+                  >
+                    {label}
+                  </span>
+                  <span style={{ color: "#8A8A8A", fontSize: "13px", lineHeight: "1.5" }}>
+                    {value}
+                  </span>
+                </div>
+              ))}
             </div>
 
-            <div className="flex items-start space-x-3">
+            {/* Dashed divider */}
+            <div
+              style={{
+                borderTop: "1px dashed rgba(57,255,20,0.15)",
+                marginBottom: "20px",
+              }}
+            />
+
+            {/* Confirmation checkbox */}
+            <div className="flex items-start gap-3">
               <Checkbox
                 id="confirm"
                 checked={confirmed}
                 onCheckedChange={(checked) => setConfirmed(checked as boolean)}
+                style={{ marginTop: "2px", accentColor: "#39FF14" }}
               />
               <Label
                 htmlFor="confirm"
-                className="text-sm font-normal leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                className="cursor-pointer"
+                style={{
+                  color: confirmed ? "#FFFFFF" : "#8A8A8A",
+                  fontSize: "13px",
+                  fontWeight: 400,
+                  lineHeight: "1.5",
+                  transition: "color 200ms",
+                }}
               >
                 I confirm that the information provided is correct
               </Label>
@@ -391,14 +690,39 @@ export default function BookingForm() {
           </CardContent>
         </Card>
 
-        <div className="flex justify-center">
+        {/* ── Submit CTA ── */}
+        <div style={{ marginTop: "8px", marginBottom: "40px" }}>
           <Button
             onClick={handleSubmit}
             disabled={!isFormValid() || loading}
-            className="bg-blue-600 text-white border border-blue-700 px-6 py-3 rounded-lg font-semibold transition duration-200 hover:bg-blue-900 hover:border-black hover:cursor-pointer transform hover:scale-125"
             size="lg"
+            className="w-full uppercase font-bold tracking-widest transition-all duration-200"
+            style={{
+              background: "transparent",
+              color: isFormValid() && !loading ? "#39FF14" : "#444",
+              border:
+                isFormValid() && !loading
+                  ? "1px solid #39FF14"
+                  : "1px solid rgba(255,255,255,0.08)",
+              borderRadius: "10px",
+              fontSize: "13px",
+              letterSpacing: "0.12em",
+              minHeight: "52px",
+              cursor: isFormValid() && !loading ? "pointer" : "not-allowed",
+            }}
+            onMouseEnter={(e) => {
+              if (!isFormValid() || loading) return;
+              (e.currentTarget as HTMLButtonElement).style.boxShadow =
+                "0 0 16px rgba(57,255,20,0.35)";
+              (e.currentTarget as HTMLButtonElement).style.background =
+                "rgba(57,255,20,0.06)";
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLButtonElement).style.boxShadow = "none";
+              (e.currentTarget as HTMLButtonElement).style.background = "transparent";
+            }}
           >
-            {loading ? "Creating booking..." : "Schedule Pickup"}
+            {loading ? "Creating booking..." : "Schedule Pickup →"}
           </Button>
         </div>
       </div>
